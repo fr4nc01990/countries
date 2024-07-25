@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { Country } from '../../services/interfaces/country';
 import { CountriesService } from '../../services/countries.service';
 
+type Region = 'Africa'|'Americas'|'Asia'|'Europe'|'Oceania';
+//se podía haber hecho una interfaz tmb la diferencia con el type es que estas últimas se pueden expandir
+
 @Component({
   selector: 'app-by-region-page',
   templateUrl: './by-region-page.component.html',
@@ -10,11 +13,16 @@ import { CountriesService } from '../../services/countries.service';
 export class ByRegionPageComponent {
 
   public countries: Country[]= []; // para mostrarlo en el HTML
+  public regions: Region[] = ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania'];
+  public selectedRegion?: Region;
 
   constructor ( private countriesService:CountriesService ) {}
 
-  searchByRegion ( term: string ): void {
-    this.countriesService.searchRegion ( term )
+  searchByRegion ( region: Region ): void {
+
+    this.selectedRegion = region;
+
+    this.countriesService.searchRegion ( region )
     .subscribe( (countries) => {
       this.countries = countries;
     }, 
